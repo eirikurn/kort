@@ -5,21 +5,43 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; margin: 0; padding: 0 }
-      #map_canvas { height: 100% }
+      #map_canvas {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        left: 320px;
+        right: 0;
+      }
+      #sidebar {
+        width: 320px;
+        height: 100%;
+      }
     </style>
     <script type="text/javascript" src="isn93.js"></script>
     <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyANfmY6v5cvpcaST4NY7PEHgfDUvtfSE2U&sensor=true&region=is"></script>
     <script type="text/javascript">
-
-
       function initialize() {
         var mapOptions = {
-          center: new google.maps.LatLng(64.116748, -21.87137),
           zoom: 12,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          streetViewControl: false
         };
+        var reykjavik = new google.maps.LatLng(64.116748, -21.87137);
         var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+            map.setCenter(initialLocation);
+
+            new google.maps.Marker({position: initialLocation, map: map, title: "Þú ert staddur hér"})
+          }, function() {
+            map.setCenter(reykjavik);
+          });
+        } else {
+          map.setCenter(reykjavik);
+        }
 
         for (var marker, location, station, i = 0, len = data.length; i < len; i++) {
           station = data[i];
@@ -27,15 +49,21 @@
 
           marker = new google.maps.Marker({
             position: new google.maps.LatLng(location.lat, location.lon),
-            icon: 'http://ja.is/media/yellow/logo/24789.png',
+            icon: 'icons/orkan.png',
             map: map,
-            title: 'Orkan'
+            title: station.name
           });
         }
       }
     </script>
   </head>
   <body onload="initialize()">
-    <div id="map_canvas" style="width:100%; height:100%"></div>
+    <div id="sidebar">
+      <h1>Kort</h1>
+      <ul>
+        <li></li>
+      </ul>
+    </div>
+    <div id="map_canvas"></div>
   </body>
 </html>
