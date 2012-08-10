@@ -17,53 +17,32 @@
         height: 100%;
       }
     </style>
-    <script type="text/javascript" src="isn93.js"></script>
-    <script type="text/javascript" src="data.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyANfmY6v5cvpcaST4NY7PEHgfDUvtfSE2U&sensor=true&region=is"></script>
-    <script type="text/javascript">
-      function initialize() {
-        var mapOptions = {
-          zoom: 12,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          streetViewControl: false
-        };
-        var reykjavik = new google.maps.LatLng(64.116748, -21.87137);
-        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-            map.setCenter(initialLocation);
-
-            new google.maps.Marker({position: initialLocation, map: map, title: "Þú ert staddur hér"})
-          }, function() {
-            map.setCenter(reykjavik);
-          });
-        } else {
-          map.setCenter(reykjavik);
-        }
-
-        for (var marker, location, station, i = 0, len = data.length; i < len; i++) {
-          station = data[i];
-          location = new Isn93(station.x, station.y);
-
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(location.lat, location.lon),
-            icon: 'icons/orkan.png',
-            map: map,
-            title: station.name
-          });
-        }
-      }
-    </script>
+    
   </head>
-  <body onload="initialize()">
-    <div id="sidebar">
-      <h1>Kort</h1>
-      <ul>
-        <li></li>
-      </ul>
+  <body>
+    <div id="sidebar" data-bind="navigation: navigation">
+      <div>
+        <h1 data-bind="text: title"></h1>
+        <a data-bind="click: app.navigation.back, visible: app.navigation.canGoBack">Back</a>
+        <ul data-bind="foreach: options">
+          <li>
+            <a data-bind="text: title, click: $parent.selectOption.bind($parent, $data)"></a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div id="map_canvas"></div>
+
+    <script type="text/javascript" src="js/libs/knockout-2.1.0.js"></script>
+    <script type="text/javascript" src="js/libs/native.history.js"></script>
+    <script type="text/javascript" src="js/libs/knockout.navigation.js"></script>
+    <script type="text/javascript" src="js/isn93.js"></script>
+    <script type="text/javascript" src="js/data.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyANfmY6v5cvpcaST4NY7PEHgfDUvtfSE2U&sensor=true&region=is"></script>
+    <script>
+      var app = new App();
+      ko.applyBindings(app);
+    </script>
   </body>
 </html>
