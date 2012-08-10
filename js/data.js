@@ -12,7 +12,13 @@ var data = [
   { x: 354779, y: 408827, category: "Gas", chain: "Orkan", name: "Orkan, Suðurströnd" },
   { x: 363541, y: 407667, category: "Gas", chain: "Orkan", name: "Orkan, Gylfaflöt" },
   { x: 364384, y: 408212, category: "Gas", chain: "Orkan", name: "Orkan, Spöngin" },
-  { x: 356108, y: 400476, category: "Gas", chain: "Orkan", name: "Orkan, Reykjavíkurvegur" }
+  { x: 356108, y: 400476, category: "Gas", chain: "Orkan", name: "Orkan, Reykjavíkurvegur" },
+
+  // Atlandsolíustöðvar í reykjavík
+  { x: 357972, y: 408045, category: "Gas", chain: "Atlantsolía", name: "Atlantsolía, Skúlagata"},
+  { x: 357663, y: 406516, category: "Gas", chain: "Atlantsolía", name: "Atlantsolía, Skúlagata"},
+  { x: 360229, y: 406421, category: "Gas", chain: "Atlantsolía", name: "Atlantsolía, Skúlagata"}
+  
 ];
 
 // A proposal for declaring menus.
